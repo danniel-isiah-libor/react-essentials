@@ -8,23 +8,31 @@ function Profile(props) {
 
     return (
         <>
-        <h1 style={css}>
-        My Profile Details
-        </h1>
+            <div className="px-4 sm:px-0">
+                <h3 className="text-base font-semibold leading-7 text-gray-900" style={css}>
+                    My Profile Details
+                </h3>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+            </div>
 
-        <p>
-        Name: {props.name}
-        </p>
+            <div className="mt-6 border-t border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Full name</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.name}</dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Application for</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.position}</dd>
+                </div>
+                <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">Company</dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Google</dd>
+                </div>
+                </dl>
+            </div>
 
-        <p>
-        Position: {props.position}
-        </p>
-
-        <p>
-        Company: Google
-        </p>
-
-        <WorkExperience experiences={props.experiences}/>
+            <WorkExperience experiences={props.experiences}/>
         </>
     )
 }
