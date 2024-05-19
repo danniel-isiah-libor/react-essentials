@@ -1,15 +1,16 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
+import WeatherCard from '../components/weatherApp/WeatherCard'
 
 export default function WeatherApp() {
     const [weather, setWeather] = useState()
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
-        onClick()
+        if(search) onClick()
     }, [])
 
     const weatherApi = 'https://api.openweathermap.org/data/2.5/weather'
-    const forecastApi = 'https://api.openweathermap.org/data/2.5/forecast'
     const token = 'c153494e41a68784f0391cd1d1de3727'
 
     // async function process1(){
@@ -62,7 +63,7 @@ export default function WeatherApp() {
     async function onClick(){
         const apiResponse = await axios.get(weatherApi, {
             params: {
-                q: 'pasay',
+                q: search,
                 units: 'metric',
                 appid: token
             }
@@ -73,40 +74,24 @@ export default function WeatherApp() {
         setWeather(apiResponse.data)
     }
 
-    const getWeatherData = () => {
-        if(weather) {
-            return {
-                temp: weather.main.temp,
-                name: weather.name,
-                icon: weather.weather[0].icon,
-                description: weather.weather[0].description
-            }
-        }else {
-            return {}
-        }
+    function onSearch(event){
+        setSearch(event.target.value)
     }
 
   return (
     <>
         <div>WeatherApp</div>
-        <button onClick={onClick} style={{ border: "1px solid red" }}> Execute all process </button>
 
-        {
-            (weather) ? 
-                <div className="bg-white p-4 rounded-lg shadow-lg text-center mb-4">
-                    <h2 className="text-2xl font-bold">{getWeatherData().name}</h2>
+        <input type="text" onChange={onSearch} />
+        <button 
+        onClick={onClick} 
+        style={{ border: "1px solid red" }}
+        >
+            Search
+        </button>
 
-                    <img
-                    src={`http://openweathermap.org/img/wn/${getWeatherData().icon}@2x.png`}
-                    alt={getWeatherData().description}
-                    className="mx-auto"
-                    />
-
-                    <p className="text-lg">{getWeatherData().description}</p>
-                    <p className="text-4xl font-bold">{getWeatherData().temp}°C</p>
-                </div>
-            : <div>No data found</div>
-        }
+        <WeatherCard weather={weather} search={search}/>
+        {/* <ForecastCard weather={weather}/> */}
     </>
   )
 }
