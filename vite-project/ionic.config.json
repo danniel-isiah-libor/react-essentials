@@ -1,0 +1,7 @@
+{
+  "name": "vite-project",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

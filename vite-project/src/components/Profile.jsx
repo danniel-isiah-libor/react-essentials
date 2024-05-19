@@ -32,7 +32,7 @@ function Profile(props) {
                 </dl>
             </div>
 
-            <WorkExperience experiences={props.experiences}/>
+            <WorkExperience />
         </>
     )
 }

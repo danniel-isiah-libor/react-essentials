@@ -6,6 +6,8 @@ const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'About', href: '/about', current: false },
   { name: 'Contact', href: '/contact', current: false },
+  { name: 'Todos', href: '/todos', current: false },
+  { name: 'Weather App', href: '/weather-app', current: false },
 ]
 
 /**

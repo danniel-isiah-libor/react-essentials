@@ -1,0 +1,3 @@
+to get current weather = https://api.openweathermap.org/data/2.5/weather
+to get forecast = https://api.openweathermap.org/data/2.5/forecast
+token = c153494e41a68784f0391cd1d1de3727

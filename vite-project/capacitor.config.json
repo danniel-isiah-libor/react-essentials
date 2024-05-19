@@ -1,0 +1,10 @@
+{
+  "appId": "vite.project",
+  "appName": "vite-project",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": " http://192.168.10.101:5173",
+    "cleartext": true
+  }
+}
