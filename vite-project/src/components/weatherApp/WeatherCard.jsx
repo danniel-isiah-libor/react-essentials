@@ -1,29 +1,22 @@
-import axios from 'axios'
 import {useState, useEffect} from 'react'
 import {format} from 'date-fns'
+import useOpenWeather from '../../hooks/useOpenWeather'
 
 export default function WeatherCard({ weather, search }) {
-    const [forecast, setForecast] = useState()
+    const [forecast, setForecast] = useState({})
+    const {useFetchForecastApi} = useOpenWeather()
 
     useEffect(() => {
         if(search) fetchForecast()
     }, [weather])
 
-    const forecastApi = 'https://api.openweathermap.org/data/2.5/forecast'
-    const token = 'c153494e41a68784f0391cd1d1de3727'
-
     async function fetchForecast() {
-        const apiResponse = await axios.get(forecastApi, {
-            params: {
-                q: search,
-                units: 'metric',
-                appid: token
-            }
-        }).then((response) => {
-            return response
+        const apiResponse = await useFetchForecastApi(search)
+        .then((response) => {
+            return getForecastData(response)
         }).catch().finally()
 
-        setForecast(apiResponse.data)
+        setForecast(apiResponse)
     }
 
     const getWeatherData = () => {
@@ -37,6 +30,26 @@ export default function WeatherCard({ weather, search }) {
         }else {
             return {}
         }
+    }
+
+    function getForecastData(response){
+        let list = response.data.list
+
+        list = list.reduce((a, b) => {
+            const date = format(new Date(b.dt * 1000), 'yyyy-MM-dd') // 2024-05-19
+
+            if(!a[date]) {
+                a[date] = []
+            }
+
+            a[date].push(b)
+
+            return a
+        }, {})
+
+        console.log(list);
+
+        return list
     }
 
   return (
@@ -61,16 +74,22 @@ export default function WeatherCard({ weather, search }) {
                         <h2>Forecast</h2>
 
                         {
-                            (forecast?.list.length) && forecast.list.map((item, index) => {
-                                return <div key={index}>
-                                    <h3>
-                                        {
-                                            format(new Date(item.dt * 1000), 'EEE, MMMM-dd') // yyyy-MM-dd
-                                        }
-                                    </h3>
-                                    <p>
-                                        {item.weather[0].description}
-                                    </p>
+                            (Object.keys(forecast).length) && Object.keys(forecast).map((item, index) => {
+                                return <div key={index} style={{ border: "1px solid red" }}>
+                                    {
+                                        forecast[item].map((forecastItem, key) => {
+                                            return <div key={key}>
+                                                <h3>
+                                                    {
+                                                        format(new Date(forecastItem.dt * 1000), 'EEE, MMMM-dd') // yyyy-MM-dd
+                                                    }
+                                                </h3>
+                                                <p>
+                                                    {forecastItem.weather[0].description}
+                                                </p>
+                                            </div>
+                                        })
+                                    }
                                 </div>
                             })
                         }

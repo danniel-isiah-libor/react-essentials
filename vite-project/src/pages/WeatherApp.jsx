@@ -1,17 +1,16 @@
-import axios from 'axios'
 import {useState, useEffect} from 'react'
 import WeatherCard from '../components/weatherApp/WeatherCard'
+import useOpenWeather from '../hooks/useOpenWeather'
 
 export default function WeatherApp() {
     const [weather, setWeather] = useState()
     const [search, setSearch] = useState('')
+    // const useGetForecast = useFetchForecastApi()
+    const {useFetchWeatherApi} = useOpenWeather()
 
     useEffect(() => {
         if(search) onClick()
     }, [])
-
-    const weatherApi = 'https://api.openweathermap.org/data/2.5/weather'
-    const token = 'c153494e41a68784f0391cd1d1de3727'
 
     // async function process1(){
     //     console.log('Process 1 is running...');
@@ -61,13 +60,8 @@ export default function WeatherApp() {
     // }
 
     async function onClick(){
-        const apiResponse = await axios.get(weatherApi, {
-            params: {
-                q: search,
-                units: 'metric',
-                appid: token
-            }
-        }).then((response) => {
+        const apiResponse =  await useFetchWeatherApi(search)
+        .then((response) => {
             return response
         }).catch().finally()
 
